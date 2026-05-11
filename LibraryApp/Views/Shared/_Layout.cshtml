@@ -12,9 +12,10 @@
     var t_reg = lang == "kz" ? "Тіркелу" : "Регистрация";
     var t_cats_title = lang == "kz" ? "Санаттар" : "Категории";
     
-    var categories = lang == "kz" 
+    var categoryKeys = new[] { "Художественная литература", "Литература Казахстана", "Детская литература", "Учебники и образование", "Наука и IT" };
+    var categoryNames = lang == "kz"
         ? new[] { "Көркем әдебиет", "Қазақстан әдебиеті", "Балалар әдебиеті", "Оқулықтар", "Ғылым және IT" }
-        : new[] { "Художественная литература", "Литература Казахстана", "Детская литература", "Учебники и образование", "Наука и IT" };
+        : categoryKeys;
 }
 
 <!DOCTYPE html>
@@ -65,8 +66,8 @@
     </div>
     <div class="offcanvas-body p-0">
         <div class="list-group list-group-flush">
-            @foreach(var cat in categories) {
-                <a asp-controller="Home" asp-action="Index" asp-route-category="@cat" class="list-group-item list-group-item-action py-3">@cat</a>
+            @for (int i = 0; i < categoryKeys.Length; i++) {
+                <a asp-controller="Home" asp-action="Index" asp-route-category="@categoryKeys[i]" class="list-group-item list-group-item-action py-3">@categoryNames[i]</a>
             }
         </div>
     </div>

@@ -1,12 +1,19 @@
 ## .NET
-bin/
 obj/
 *.user
 *.suo
 *.cache
-*.dll
-*.exe
 *.pdb
+
+## Bin: ignore everything except the publish folder
+LibraryApp/bin/*
+!LibraryApp/bin/Release/
+LibraryApp/bin/Release/*
+!LibraryApp/bin/Release/net10.0/
+LibraryApp/bin/Release/net10.0/*
+!LibraryApp/bin/Release/net10.0/win-x64/
+LibraryApp/bin/Release/net10.0/win-x64/*
+!LibraryApp/bin/Release/net10.0/win-x64/publish/
 
 ## Database
 *.db
