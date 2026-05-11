@@ -1,0 +1,45 @@
+@model IEnumerable<LibraryApp.Models.Book>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var lang = Context.Session.GetString("Language") ?? "ru";
+    var t_add = lang == "kz" ? "Кітап қосу" : "Добавить книгу";
+    var t_edit = lang == "kz" ? "Өңдеу" : "Изменить";
+    var t_del = lang == "kz" ? "Жою" : "Удалить";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-4">
+        <h2>@(lang == "kz" ? "Кітапхананы басқару" : "Управление библиотекой")</h2>
+        <a asp-action="Create" class="btn btn-success">@t_add</a>
+    </div>
+
+    <table class="table table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Фото</th>
+                <th>@(lang == "kz" ? "Атауы" : "Название")</th>
+                <th>@(lang == "kz" ? "Санаты" : "Категория")</th>
+                <th>@(lang == "kz" ? "Әрекеттер" : "Действия")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td><img src="@item.ImagePath" width="40"></td>
+                    <td>@item.Title</td>
+                    <td><span class="badge bg-info text-dark">@item.Category</span></td>
+                    <td>
+                        <div class="d-flex">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-2">@t_edit</a>
+                            <form asp-action="DeleteBook" method="post" onsubmit="return confirm('Удалить?')">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button class="btn btn-sm btn-danger">@t_del</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

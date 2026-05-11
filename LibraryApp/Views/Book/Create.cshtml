@@ -1,0 +1,60 @@
+@model LibraryApp.Models.Book
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <h4 class="mb-0">Добавить новую книгу</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Название</label>
+                        <input asp-for="Title" class="form-control" placeholder="Введите название" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Автор</label>
+                        <input asp-for="Author" class="form-control" placeholder="Имя автора" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">ISBN</label>
+                        <input asp-for="ISBN" class="form-control" placeholder="Код книги" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Категория</label>
+                        <select asp-for="Category" class="form-select" required>
+                            <option value="">Выберите категорию...</option>
+                            <option>Художественная литература</option>
+                            <option>Литература Казахстана</option>
+                            <option>Детская литература</option>
+                            <option>Учебники и образование</option>
+                            <option>Наука и IT</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Фото обложки</label>
+                        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Краткое содержание..."></textarea>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input asp-for="IsAvailable" class="form-check-input" type="checkbox" checked />
+                    <label class="form-check-label">Доступна для выдачи</label>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-light border">Назад</a>
+                    <button type="submit" class="btn btn-success px-5 shadow-sm">Сохранить книгу</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

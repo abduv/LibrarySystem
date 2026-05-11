@@ -1,0 +1,37 @@
+﻿@model IEnumerable<LibraryApp.Models.Book>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var lang = Context.Session.GetString("Language") ?? "ru";
+    var t_welcome = lang == "kz" ? "Кітапханаға қош келдіңіз" : "Добро пожаловать в библиотеку";
+    var t_search_btn = lang == "kz" ? "Табу" : "Найти";
+    var t_placeholder = lang == "kz" ? "Кітап атауы немесе авторы бойынша іздеу..." : "Поиск по названию или автору...";
+    var t_more = lang == "kz" ? "Толығырақ" : "Подробнее";
+}
+
+<div class="text-center my-5">
+    <h1 class="display-4 fw-bold">@t_welcome</h1>
+    <p class="text-muted">@(lang == "kz" ? "Сүйікті кітабыңызды табыңыз" : "Найдите свою следующую любимую книгу")</p>
+</div>
+
+<form asp-action="Index" method="get" class="mb-5">
+    <div class="input-group input-group-lg shadow-sm">
+        <input type="text" name="searchString" class="form-control border-0" placeholder="@t_placeholder" value="@ViewData["Filter"]">
+        <button class="btn btn-primary px-4" type="submit">@t_search_btn</button>
+    </div>
+</form>
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var item in Model) {
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm transition-up">
+                <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "/images/no-photo.png" : item.ImagePath)" class="card-img-top p-2 rounded-4" style="height: 300px; object-fit: contain;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">@item.Title</h5>
+                    <p class="card-text text-muted small">@item.Author</p>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary rounded-pill w-100">@t_more</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

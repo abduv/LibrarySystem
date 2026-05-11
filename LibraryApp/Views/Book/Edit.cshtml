@@ -1,0 +1,73 @@
+@model LibraryApp.Models.Book
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var lang = Context.Session.GetString("Language") ?? "ru";
+    var t_edit = lang == "kz" ? "Өңдеу" : "Редактирование";
+    var t_name = lang == "kz" ? "Атауы" : "Название";
+    var t_author = lang == "kz" ? "Авторы" : "Автор";
+    var t_cat = lang == "kz" ? "Санаты" : "Категория";
+    var t_photo_change = lang == "kz" ? "Фотоны ауыстыру" : "Сменить фото";
+    var t_save_changes = lang == "kz" ? "Өзгерістерді сақтау" : "Сохранить изменения";
+    var t_cancel = lang == "kz" ? "Бас тарту" : "Отмена";
+}
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark py-3">
+            <h4 class="mb-0">@t_edit: @Model.Title</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImagePath" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">@t_name</label>
+                        <input asp-for="Title" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">@t_author</label>
+                        <input asp-for="Author" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">ISBN</label>
+                        <input asp-for="ISBN" class="form-control" />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">@t_cat</label>
+                        <select asp-for="Category" class="form-select" required>
+                            <option value="Художественная литература">Художественная литература / Көркем әдебиет</option>
+                            <option value="Литература Казахстана">Литература Казахстана / Қазақстан әдебиеті</option>
+                            <option value="Детская литература">Детская литература / Балалар әдебиеті</option>
+                            <option value="Учебники и образование">Учебники и образование / Оқулықтар</option>
+                            <option value="Наука и IT">Наука и IT / Ғылым және IT</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">@t_photo_change</label>
+                        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <img src="@Model.ImagePath" style="height: 120px;" class="rounded shadow-sm">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Сипаттамасы / Описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-light border">@t_cancel</a>
+                    <button type="submit" class="btn btn-primary px-5 shadow-sm">@t_save_changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+@model LibraryApp.Models.Book
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var lang = Context.Session.GetString("Language") ?? "ru";
+    var t_status = lang == "kz" ? "Мәртебесі" : "Статус";
+    var t_avail = lang == "kz" ? "Қолжетімді" : "Доступна";
+    var t_busy = lang == "kz" ? "Берілген" : "Выдана";
+    var t_order = lang == "kz" ? "Кітапты алу" : "Взять книгу";
+    var t_cancel = lang == "kz" ? "Броньды жою" : "Отменить бронь";
+    var t_wait = lang == "kz" ? "Админ жауабын күтіңіз..." : "Ждите ответа админа...";
+}
+
+<div class="container mt-5">
+    @if (TempData["Message"] != null) {
+        <div class="alert alert-success alert-dismissible fade show">@TempData["Message"]</div>
+    }
+
+    <div class="row">
+        <div class="col-md-4"><img src="@Model.ImagePath" class="img-fluid rounded shadow"></div>
+        <div class="col-md-8">
+            <h1>@Model.Title</h1>
+            <p class="text-muted">@Model.Author</p>
+            <p><strong>@t_status:</strong> 
+                @if(Model.IsAvailable) { <span class="badge bg-success">@t_avail</span> }
+                else { <span class="badge bg-danger">@t_busy</span> }
+            </p>
+            <p>@Model.Description</p>
+
+            <div class="mt-4">
+                @if (Model.IsAvailable)
+                {
+                    @if (ViewBag.ExistingOrder != null)
+                    {
+                        <div class="alert alert-info">@t_wait</div>
+                        <form asp-action="CancelOrder" method="post">
+                            <input type="hidden" name="bookId" value="@Model.Id" />
+                            <button class="btn btn-danger">@t_cancel</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="OrderBook" method="post">
+                            <input type="hidden" name="bookId" value="@Model.Id" />
+                            <button class="btn btn-primary btn-lg">@t_order</button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
