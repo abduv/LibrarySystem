@@ -30,7 +30,11 @@
             <div class="mt-4">
                 @if (Model.IsAvailable)
                 {
-                    @if (ViewBag.ExistingOrder != null)
+                    @if (Context.Session.GetString("UserName") == null)
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg">@t_order</a>
+                    }
+                    else if (ViewBag.ExistingOrder != null)
                     {
                         <div class="alert alert-info">@t_wait</div>
                         <form asp-action="CancelOrder" method="post">

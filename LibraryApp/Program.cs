@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using LibraryApp.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory
+});
 
 // 1. Регистрация Базы Данных
 var dbPath = Path.Combine(AppContext.BaseDirectory, "library.db");
@@ -18,7 +22,7 @@ builder.Services.AddSession(options => {
 });
 builder.Services.AddHttpContextAccessor();
 
-builder.WebHost.UseUrls("http://localhost:5000");
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
 
@@ -37,7 +41,9 @@ using (var scope = app.Services.CreateScope()) {
     }
 }
 
-if (!app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment()) {
+    app.UseDeveloperExceptionPage();
+} else {
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibraryApp.Data;
 using LibraryApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace LibraryApp.Controllers
 {
@@ -9,6 +10,12 @@ namespace LibraryApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         public HomeController(ApplicationDbContext context) => _context = context;
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
 
         public IActionResult Index(string searchString, string category)
         {
@@ -64,7 +71,8 @@ namespace LibraryApp.Controllers
         public IActionResult ChangeLanguage(string culture)
         {
             HttpContext.Session.SetString("Language", culture);
-            return Redirect(Request.Headers["Referer"].ToString() ?? "/");
+            var referer = Request.Headers["Referer"].ToString();
+            return Redirect(string.IsNullOrEmpty(referer) ? "/" : referer);
         }
     }
 }
