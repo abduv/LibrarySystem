@@ -5,7 +5,7 @@ obj/
 *.cache
 *.pdb
 
-## Bin: ignore everything except the publish folder
+## Bin: ignore everything except the publish folders
 LibraryApp/bin/*
 !LibraryApp/bin/Release/
 LibraryApp/bin/Release/*
@@ -14,6 +14,9 @@ LibraryApp/bin/Release/net10.0/*
 !LibraryApp/bin/Release/net10.0/win-x64/
 LibraryApp/bin/Release/net10.0/win-x64/*
 !LibraryApp/bin/Release/net10.0/win-x64/publish/
+!LibraryApp/bin/Release/net10.0/win-x86/
+LibraryApp/bin/Release/net10.0/win-x86/*
+!LibraryApp/bin/Release/net10.0/win-x86/publish/
 
 ## Database
 *.db
